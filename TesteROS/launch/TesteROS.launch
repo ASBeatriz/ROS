@@ -1,0 +1,5 @@
+<launch>
+    <node name="publisherNode" pkg="TesteROS" type="publisherNode" output="screen"/>
+
+    <node name="subscriberNode" pkg="TesteROS" type="subscriberNode" output="screen"/>
+</launch>
