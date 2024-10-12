@@ -1,4 +1,5 @@
 ## Anotações Gerais de ROS
+Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR da USP São Carlos. 
 
 ### Comandos para usar sempre:
 `catkin_make`  
