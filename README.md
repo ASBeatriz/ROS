@@ -92,9 +92,9 @@ Exemplo:
 
 - **Executando**:  
 No terminal, digite o seguinte comando na pasta do workspace ("catkin_ws"):  
-`roslaunch caminho_para_o_lauch`  
+`roslaunch caminho_para_o_lauch` ou `roslaunch nome_projeto nome_arquivo_lauch`  
 Exemplo:  
-`roslaunch src/helloWorld/launch/helloWorld.launch`
+`roslaunch src/helloWorld/launch/helloWorld.launch` ou `roslaunch helloWorld helloWorld.launch`  
 
 ### Criando mensagens customizadas
 No pacote em questão, criar uma pasta "msg" e adionar o arquivo .msg (minhaMensagem.msg, por exemplo).  
