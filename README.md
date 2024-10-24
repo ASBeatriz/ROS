@@ -3,11 +3,11 @@ O intuito desse repositório é armazenar projetos destinados ao aprendizado e a
 Seguem abaixo anotações gerais para a criação de um projeto.
 
 ## Anotações Gerais de ROS
-Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR da USP São Carlos. 
+Comandos e procedimentos básicos para criar um projeto com ROS.
 
 ### Comandos para usar sempre:
 `catkin_make`  
-`source devel/setup.sh`
+`source devel/setup.sh` - em cada terminal aberto
 
 ### Criando um pacote ROS
 Na pasta **src**, utiliizar o comando `catkin_create_pkg` com o nome do pacote e as dependências:
@@ -19,6 +19,11 @@ Exemplo:
 ```
 catkin_create_pkg helloWorld std_msgs rospy roscpp
 ```  
+
+## Comando em C++
+Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR da USP São Carlos.  
+
+### Biblioteca
 
 ### Criando um nó (em um arquivo fonte dentro da pasta "src" do pacote): 
 1. Inicializar o nó  
@@ -199,3 +204,117 @@ helloWorld::MinhaMensagem mensagem;
 mensagem.inteiro1 = 10;
 ...
 ```
+## Comandos em Python
+Anotações retiradas da documentação oficial.
+
+### No terminal
+Para cada arquivo Python criado, faça-o executável:
+```
+chmod +x caminho_para_o_arquivo
+```
+Exemplo:
+```
+chmod +x src/file.py
+```
+### Biblioteca
+Importar a biblioteca `rospy` e outras, caso necessário.
+``` Python
+import rospy    # biblioteca para o ROS
+from geometry_msgs.msg import Twist # exemplo de biblioteca para o tipo da mensagem
+```
+### Criando e manipulando um nó
+1. Cria o nó
+    ``` Python
+    rospy.init_node('nome_do_no', anonymous = True)
+    ```
+
+#### Publicador:
+2. Criar o publicador 
+    ``` Python
+    pub = rospy.Publisher('comandosTeste', Twist, queue_size = 10)  
+                       # (nome do tópico, tipo da mensagem, tam da fila)
+    ```
+3. Instanciar uma mensagem e alterar seu conteúdo  
+    Exemplo:  
+    ``` Python
+    msg = Twist()
+    msg.linear.x = 2
+    msg.linear.y = 3
+    msg.linear.z = 3
+    ```
+4. Publicar a mensagem  
+    ``` Python
+    pub.publish(msg)
+    ```
+
+##### OBS:
+Estabelecer uma taxa de frequência para percorrer um loop:
+``` Python
+rate = rospy.Rate(10)  # percorre o loop 10 vezes por segundo
+```
+E, dentro do loop:
+``` Python
+rate.sleep()
+```
+Exemplo:
+``` Python
+rate = rospy.Rate(10)  # 10hz   
+
+while not rospy.is_shutdown():
+    pub.publish(msg)
+    rate.sleep()
+```
+
+#### Subscritor:
+2. Chama o subscritor 
+    ```Python
+    # (nome do tópico, tipo da mensagem, função de callback)
+    rospy.Subscriber('comandosTeste', Twist, callback) 
+    ```
+3. Criar a função de callback  
+    Exemplo:
+    ```Python
+    def callback (msg):
+        rospy.loginfo('mensagem recebida: %s', msg.data)
+    ```
+4. Método spin()
+    Evita que o nó saia até que ele seja encerrado.
+    ```Python
+    rospy.spin()
+    ```
+
+### Separando em funções
+Todos os comando anteriores vão em sua própria função (publisher(), subscriber(), callback(), etc).  
+Exemplo de subscritor:  
+``` Python
+def callback (data):
+    rospy.loginfo('mensagem recebida (y): %s', data.linear.y)
+
+def subscriber ():
+    rospy.init_node('subscriber', anonymous=True)
+    rospy.Subscriber('comandosTeste', Twist, callback)
+    rospy.spin()
+```
+### "main"
+Após as funções estarem feitas, é configurado uma espécie de main (?) que chama a função principal:  
+#### Publicador
+``` Python
+if __name__ == '__main__':
+    try:
+        publisher()
+    except rospy.ROSInterruptException:
+        pass
+```
+#### Subscritor
+``` Python
+if __name__ == '__main__':
+    subscriber()
+```
+
+### Executando
+1. Executar `roscore` no terminal
+
+2. Em **outro terminal**, executar o código desejado com:  
+`rosrun nome_pacote nome_arquivo`  
+Exemplo:  
+`rosrun helloWorld publisher.py`
