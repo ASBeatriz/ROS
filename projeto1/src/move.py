@@ -2,6 +2,11 @@
 import rospy
 from geometry_msgs.msg import Twist
 
+# Função para ler a velocidade do usuário
+def ler_vel():
+    vel = float(input("Velocidade: "))
+    return vel
+
 # Função auxiliar para trocar o estado de movimento
 def troca(estado):
     if estado == "andando":
@@ -9,24 +14,29 @@ def troca(estado):
     else:
         return "andando"
 
-# Função pdo nó publicador
+# Função do nó publicador
 def publica():
-    pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size = 10)  
+    # simulação com gazebo: '/cmd_vel'
+    # simulação sem gazebo (turtlesim_node): '/turtle1/cmd_vel'
+    pub = rospy.Publisher('/cmd_vel', Twist, queue_size = 10)  
     rospy.init_node('publisher', anonymous=True)    
-
-    # Cria a mensagem
+    rate = rospy.Rate(10)
+    
+    # Cria a mensagem e inicializa seus componentes
     f = Twist()
+    f.angular.x, f.angular.y, f.angular.z = [0,0,0]
+    f.linear.x, f.linear.y, f.linear.z = [0,0,0]
 
-    rate = rospy.Rate(10)  # Faz percorrer o loop 10 vezes por segundo
+    # Variável para indicar o estado do robô
+    estado = "andando"
+
+    vel = ler_vel()
 
     # Armazena o tempo atual em segundos
     tempoInicial = rospy.get_time()  
 
     # Variável para armazenar o tempo relativo à ultima troca
     ultimaTroca = tempoInicial
-
-    # Variável para indicar o estado do robô
-    estado = "andando"
 
     while not rospy.is_shutdown():
         tempoAtual = rospy.get_time()
@@ -42,11 +52,11 @@ def publica():
         print(f"Estado : {estado} \n")
 
         if estado == "andando":
-            f.angular.z = 0.5
-            f.linear.x = 1
+            # f.angular.z = 1
+            f.linear.x = vel
         else:
-            f.angular.z = 0
-            f.linear.x = 0
+            # f.angular.z = 0
+            f.linear.x = 0  
 
         #rospy.loginfo(f)
         pub.publish(f)  # Publica a mensagem
