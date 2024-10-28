@@ -2,15 +2,44 @@
 O intuito desse repositório é armazenar projetos destinados ao aprendizado e aplicação de ROS (Robot Operating System).  
 Seguem abaixo anotações gerais para a criação de um projeto.
 
-## Anotações Gerais de ROS
+## Sumário
+- [Anotações Gerais de ROS](#anotacoes-gerais)  
+    - [Comandos para usar sempre](#comandos)  
+    - [Criando um pacote ROS](#criando-pacote)  
+- [Comando em C++](#cpp)  
+    - [Biblioteca](#biblioteca-cpp)  
+    - [Criando um nó](#no-cpp)  
+        - [Publicador](#pub-cpp)  
+        - [Subscritor](#sub-cpp)  
+    - [Burocracia do CMakeLists](#cmake1)  
+    - [Arquivo lauch](#launch)  
+    - [Criando mensagens customizadas](#msg-customizada)  
+        - [Burocracia do CMakeLists (novamente)](#cmake2)  
+        - [Burocracia do package.xml](#packagexml)  
+        - [Modificando o arquivo fonte](#arquivo-fonte)  
+- [Comando em Python](#python)  
+    - [No terminal](#terminal)  
+    - [Biblioteca](#biblioteca-python)  
+    - [Criando e manipulando um nó](#no-python)  
+    - [Criando e manipulando um nó](#no-python)  
+        - [Publicador](#pub-python)  
+        - [Subscritor](#sub-python)  
+    - [Separando em funções](#funcoes)  
+    - ["main"](#main)  
+        - [Publicador](#main-pub)  
+        - [Subscritor](#main-sub)  
+    - [Executando](#executando)  
+    
+
+## Anotações Gerais de ROS <a name="anotacoes-gerais"></a>
 Comandos e procedimentos básicos para criar um projeto com ROS.
 
-### Comandos para usar sempre:
+### Comandos para usar sempre: <a name="comandos"></a>
 `catkin_make`  
 `source devel/setup.sh` - em cada terminal aberto
 
-### Criando um pacote ROS
-Na pasta **src**, utiliizar o comando `catkin_create_pkg` com o nome do pacote e as dependências:
+### Criando um pacote ROS <a name="criando-pacote"></a>
+Na pasta **src**, utilizar o comando `catkin_create_pkg` com o nome do pacote e as dependências:
 ```
 cd src
 catkin_create_pkg nome_do_pacote dependencias
@@ -20,12 +49,18 @@ Exemplo:
 catkin_create_pkg helloWorld std_msgs rospy roscpp
 ```  
 
-## Comando em C++
+## Comando em C++ <a name="cpp"></a>
 Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR da USP São Carlos.  
 
-### Biblioteca
+### Biblioteca <a name="biblioteca-cpp"></a>
+Incluir a biblioteca `<ros/ros.h>` e outras, caso necessário.   
+``` C++
+#include <ros/ros.h>    // Biblioteca para o ROS
+#include "std_msgs/Int64.h" // Exemplo de biblioteca para o tipo da mensagem (tipo padrão)
+```
 
-### Criando um nó (em um arquivo fonte dentro da pasta "src" do pacote): 
+### Criando um nó <a name="no-cpp"></a>
+Em um arquivo fonte (.cpp) dentro da pasta "src" do pacote. 
 1. Inicializar o nó  
     ```C++
     ros::init(argc, argv, "publisherNode / subscriberNode");
@@ -36,7 +71,7 @@ Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR
     ros::NodeHandle _nh;
     ```
     
-#### Publicador:
+#### Publicador: <a name="pub-cpp"></a>
 3. Criar o publicador 
     ```C++
     ros::Publisher topicoExemploRef = _nh.advertise<tipo_da_mensagem>("topicoExemplo", tam_da_fila);
@@ -51,7 +86,7 @@ Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR
     topicoExemploRef.publish(mensagem);
     ```
 
-#### Subscritor:
+#### Subscritor: <a name="sub-cpp"></a>
 3. Criar o subscritor  
     ```C++
     ros::Subscriber topicoExemploRef = _nh.subscribe("topicoExemplo", tam_da_fila, subscriberCallBack)
@@ -64,8 +99,8 @@ Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR
     }
     ```
 
-### Burocracia do CMakeLists (para cada nó criado)
-Configurações mínimas para todo nó.  
+### Burocracia do CMakeLists <a name="cmake1"></a>
+Configurações mínimas **para cada nó criado**.  
 1. `add_executable`  
     Procurar a seção que contém essa declaração (modelo) e adicionar em baixo:  
     ```cmake
@@ -94,7 +129,7 @@ Configurações mínimas para todo nó.
     )
     ```
 
-### Arquivo lauch
+### Arquivo lauch  <a name="launch"></a>
 Facilita a execução de vários nós, evitando executar um por vez.  
 Dentro do pacote, criar um pasta "launch" e adicionar um arquivo .lauch (helloworld.lauch, por exemplo).    
 Dentro do arquivo, adicionar os nós:  
@@ -114,7 +149,7 @@ Exemplo:
 `roslaunch src/helloWorld/launch/helloWorld.launch` ou  
 `roslaunch helloWorld helloWorld.launch`  
 
-### Criando mensagens customizadas
+### Criando mensagens customizadas <a name="msg-customizada"></a>
 No pacote em questão, criar uma pasta "msg" e adionar o arquivo .msg (minhaMensagem.msg, por exemplo).  
 Dentro do arquivo, adicionar apenas a declaração de cada componente da mensagem, que é uma struct. Exemplo:  
 ``` msg
@@ -128,7 +163,7 @@ string palavra
 bool verifica
 ...
 ```
-#### Burocracio do CMakeLists (novamente)
+#### Burocracia do CMakeLists (novamente) <a name="cmake2"></a>
 1. `find_package`  
 Procurar a seção que contém essa declaração (modelo) e adicionar _message_generation_ na lista já existente:
     ```cmake
@@ -164,7 +199,7 @@ Procurar a seção que contém essa declaração (modelo) e adicionar _message_g
         )
     ``` 
 
-#### Burocracia do package.xml
+#### Burocracia do package.xml <a name="packagexml"></a>
 No fim do arquivo _package.xml_ tem algumas tags escritas como:
 ``` 
 <build_depend> </build_depend>
@@ -190,7 +225,7 @@ Para cada tipo, adicione mais uma tag contendo “message_runtime”. O resultad
 <exec_depend>std_msgs</exec_depend>
 <exec_depend>message_runtime</exec_depend>
 ```
-#### Modificando o arquivo fonte
+#### Modificando o arquivo fonte <a name="arquivo-fonte"></a>
 Para utilizar a estrutura de mensagem criada, adicionar:
 ``` c++
 #include "nome_do_pacote/nome_da_mensagem.h"
@@ -204,10 +239,11 @@ helloWorld::MinhaMensagem mensagem;
 mensagem.inteiro1 = 10;
 ...
 ```
-## Comandos em Python
+
+## Comandos em Python <a name="python"></a>
 Anotações retiradas da documentação oficial.
 
-### No terminal
+### No terminal <a name="terminal"></a>
 Para cada arquivo Python criado, faça-o executável:
 ```
 chmod +x caminho_para_o_arquivo
@@ -216,19 +252,19 @@ Exemplo:
 ```
 chmod +x src/file.py
 ```
-### Biblioteca
+### Biblioteca <a name="biblioteca-python"></a>
 Importar a biblioteca `rospy` e outras, caso necessário.
 ``` Python
 import rospy    # biblioteca para o ROS
 from geometry_msgs.msg import Twist # exemplo de biblioteca para o tipo da mensagem
 ```
-### Criando e manipulando um nó
+### Criando e manipulando um nó <a name="no-python"></a>
 1. Cria o nó
     ``` Python
     rospy.init_node('nome_do_no', anonymous = True)
     ```
 
-#### Publicador:
+#### Publicador: <a name="pub-python"></a>
 2. Criar o publicador 
     ``` Python
     pub = rospy.Publisher('comandosTeste', Twist, queue_size = 10)  
@@ -247,7 +283,7 @@ from geometry_msgs.msg import Twist # exemplo de biblioteca para o tipo da mensa
     pub.publish(msg)
     ```
 
-##### OBS:
+**Obs:**  
 Estabelecer uma taxa de frequência para percorrer um loop:
 ``` Python
 rate = rospy.Rate(10)  # percorre o loop 10 vezes por segundo
@@ -265,7 +301,7 @@ while not rospy.is_shutdown():
     rate.sleep()
 ```
 
-#### Subscritor:
+#### Subscritor: <a name="sub-python"></a>
 2. Chama o subscritor 
     ```Python
     # (nome do tópico, tipo da mensagem, função de callback)
@@ -283,7 +319,7 @@ while not rospy.is_shutdown():
     rospy.spin()
     ```
 
-### Separando em funções
+### Separando em funções <a name="funcoes"></a>
 Todos os comando anteriores vão em sua própria função (publisher(), subscriber(), callback(), etc).  
 Exemplo de subscritor:  
 ``` Python
@@ -295,9 +331,9 @@ def subscriber ():
     rospy.Subscriber('comandosTeste', Twist, callback)
     rospy.spin()
 ```
-### "main"
+### "main" <a name="main"></a>
 Após as funções estarem feitas, é configurado uma espécie de main (?) que chama a função principal:  
-#### Publicador
+#### Publicador <a name="main-pub"></a>
 ``` Python
 if __name__ == '__main__':
     try:
@@ -305,13 +341,13 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 ```
-#### Subscritor
+#### Subscritor <a name="main-sub"></a>
 ``` Python
 if __name__ == '__main__':
     subscriber()
 ```
 
-### Executando
+### Executando <a name="executando"></a>
 1. Executar `roscore` no terminal
 
 2. Em **outro terminal**, executar o código desejado com:  
