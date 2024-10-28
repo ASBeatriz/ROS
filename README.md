@@ -7,27 +7,24 @@ Seguem abaixo anotações gerais para a criação de um projeto.
     - [Comandos para usar sempre](#comandos)  
     - [Criando um pacote ROS](#criando-pacote)  
 - [Comando em C++](#cpp)  
-    - [Biblioteca](#biblioteca-cpp)  
+    - [Bibliotecas](#biblioteca-cpp)  
     - [Criando um nó](#no-cpp)  
         - [Publicador](#pub-cpp)  
         - [Subscritor](#sub-cpp)  
-    - [Burocracia do CMakeLists](#cmake1)  
+    - [Configuração do CMakeLists](#cmake1)  
     - [Arquivo lauch](#launch)  
     - [Criando mensagens customizadas](#msg-customizada)  
-        - [Burocracia do CMakeLists (novamente)](#cmake2)  
-        - [Burocracia do package.xml](#packagexml)  
+        - [Configuração do CMakeLists (novamente)](#cmake2)  
+        - [Configuração do package.xml](#packagexml)  
         - [Modificando o arquivo fonte](#arquivo-fonte)  
 - [Comando em Python](#python)  
     - [No terminal](#terminal)  
-    - [Biblioteca](#biblioteca-python)  
-    - [Criando e manipulando um nó](#no-python)  
+    - [Bibliotecas](#biblioteca-python)   
     - [Criando e manipulando um nó](#no-python)  
         - [Publicador](#pub-python)  
         - [Subscritor](#sub-python)  
     - [Separando em funções](#funcoes)  
-    - ["main"](#main)  
-        - [Publicador](#main-pub)  
-        - [Subscritor](#main-sub)  
+    - ["Main"](#main) 
     - [Executando](#executando)  
     
 
@@ -52,7 +49,7 @@ catkin_create_pkg helloWorld std_msgs rospy roscpp
 ## Comando em C++ <a name="cpp"></a>
 Anotações do Treinamento de ROS disponibilizado pelo grupo de extensão SEMEAR da USP São Carlos.  
 
-### Biblioteca <a name="biblioteca-cpp"></a>
+### Bibliotecas <a name="biblioteca-cpp"></a>
 Incluir a biblioteca `<ros/ros.h>` e outras, caso necessário.   
 ``` C++
 #include <ros/ros.h>    // Biblioteca para o ROS
@@ -99,7 +96,7 @@ Em um arquivo fonte (.cpp) dentro da pasta "src" do pacote.
     }
     ```
 
-### Burocracia do CMakeLists <a name="cmake1"></a>
+### Configuração do CMakeLists <a name="cmake1"></a>
 Configurações mínimas **para cada nó criado**.  
 1. `add_executable`  
     Procurar a seção que contém essa declaração (modelo) e adicionar em baixo:  
@@ -163,7 +160,7 @@ string palavra
 bool verifica
 ...
 ```
-#### Burocracia do CMakeLists (novamente) <a name="cmake2"></a>
+#### Configuração do CMakeLists (novamente) <a name="cmake2"></a>
 1. `find_package`  
 Procurar a seção que contém essa declaração (modelo) e adicionar _message_generation_ na lista já existente:
     ```cmake
@@ -199,7 +196,7 @@ Procurar a seção que contém essa declaração (modelo) e adicionar _message_g
         )
     ``` 
 
-#### Burocracia do package.xml <a name="packagexml"></a>
+#### Configuração do package.xml <a name="packagexml"></a>
 No fim do arquivo _package.xml_ tem algumas tags escritas como:
 ``` 
 <build_depend> </build_depend>
@@ -252,13 +249,13 @@ Exemplo:
 ```
 chmod +x src/file.py
 ```
-### Biblioteca <a name="biblioteca-python"></a>
+### Bibliotecas <a name="biblioteca-python"></a>
 Importar a biblioteca `rospy` e outras, caso necessário.
 ``` Python
 import rospy    # biblioteca para o ROS
 from geometry_msgs.msg import Twist # exemplo de biblioteca para o tipo da mensagem
 ```
-### Criando e manipulando um nó <a name="no-python"></a>
+### Criando um nó <a name="no-python"></a>
 1. Cria o nó
     ``` Python
     rospy.init_node('nome_do_no', anonymous = True)
@@ -331,9 +328,9 @@ def subscriber ():
     rospy.Subscriber('comandosTeste', Twist, callback)
     rospy.spin()
 ```
-### "main" <a name="main"></a>
-Após as funções estarem feitas, é configurado uma espécie de main (?) que chama a função principal:  
-#### Publicador <a name="main-pub"></a>
+### "Main" <a name="main"></a>
+Após as funções estarem feitas, é construído o código que chama a função principal:  
+**Publicador**
 ``` Python
 if __name__ == '__main__':
     try:
@@ -341,7 +338,7 @@ if __name__ == '__main__':
     except rospy.ROSInterruptException:
         pass
 ```
-#### Subscritor <a name="main-sub"></a>
+**Subscritor**
 ``` Python
 if __name__ == '__main__':
     subscriber()
