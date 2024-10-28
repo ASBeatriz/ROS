@@ -26,7 +26,7 @@ Seguem abaixo anotações gerais para a criação de um projeto.
     - [Separando em funções](#funcoes)  
     - ["Main"](#main) 
     - [Executando](#executando)  
-    
+---    
 
 ## Anotações Gerais de ROS <a name="anotacoes-gerais"></a>
 Comandos e procedimentos básicos para criar um projeto com ROS.
