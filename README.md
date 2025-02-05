@@ -12,7 +12,7 @@ Seguem abaixo anotações gerais para a criação de um projeto.
         - [Publicador](#pub-cpp)  
         - [Subscritor](#sub-cpp)  
     - [Configuração do CMakeLists](#cmake1)  
-    - [Arquivo lauch](#launch)  
+    - [Arquivo launch](#launch)  
     - [Criando mensagens customizadas](#msg-customizada)  
         - [Configuração do CMakeLists (novamente)](#cmake2)  
         - [Configuração do package.xml](#packagexml)  
@@ -126,7 +126,7 @@ Configurações mínimas **para cada nó criado**.
     )
     ```
 
-### Arquivo lauch  <a name="launch"></a>
+### Arquivo launch  <a name="launch"></a>
 Facilita a execução de vários nós, evitando executar um por vez.  
 Dentro do pacote, criar um pasta "launch" e adicionar um arquivo .lauch (helloworld.lauch, por exemplo).    
 Dentro do arquivo, adicionar os nós:  
