@@ -1,9 +1,9 @@
 ## Projetos com ROS
 O intuito desse repositório é armazenar projetos destinados ao aprendizado e aplicação de ROS (Robot Operating System).  
 Seguem abaixo anotações gerais para a criação de um projeto.  
-[!NOTE] This alert uses  
 
-[!NOTE] a [!NOTE]
+> [!NOTE]
+> As anotações a seguir se referem ao **ROS Noetic** no **Ubuntu** e considera-se que ele já esteja devidamente instalado e configurado ([Ver tutorial oficial](https://wiki.ros.org/noetic/Installation/Ubuntu)).
 
 ## Sumário
 - [Anotações Gerais de ROS](#anotacoes-gerais)  
