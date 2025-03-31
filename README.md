@@ -35,8 +35,16 @@ Seguem abaixo anotações gerais para a criação de um projeto.
 Comandos e procedimentos básicos para criar um projeto com ROS.
 
 ### Comandos para usar sempre: <a name="comandos"></a>
-`catkin_make`  
-`source devel/setup.sh` - em cada terminal aberto
+`source /opt/ros/noetic/setup.bash` - Em cada terminal abeto. É necessário para ter acesso aos comandos ROS.  
+- É possível atomatizar esse comando ao configurá-lo diretamente no .bash com:  
+    ```
+      echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+      source ~/.bashrc
+    ```
+    (Recomendado para tiver apenas uma versão de ROS instalado, caso contrátio fazer na mão).
+
+`catkin_make` - Compila o workspace.  
+`source devel/setup.sh` - Também em cada terminal aberto. Ativa o ambiente do workspace.
 
 ### Criando um pacote ROS <a name="criando-pacote"></a>
 Na pasta **src**, utilizar o comando `catkin_create_pkg` com o nome do pacote e as dependências:
