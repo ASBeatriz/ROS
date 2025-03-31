@@ -12,7 +12,7 @@ Seguem abaixo anotações gerais para a criação de um projeto.
         - [Publicador](#pub-cpp)  
         - [Subscritor](#sub-cpp)  
     - [Configuração do CMakeLists](#cmake1)  
-    - [Arquivo lauch](#launch)  
+    - [Arquivo launch](#launch)  
     - [Criando mensagens customizadas](#msg-customizada)  
         - [Configuração do CMakeLists (novamente)](#cmake2)  
         - [Configuração do package.xml](#packagexml)  
@@ -126,9 +126,9 @@ Configurações mínimas **para cada nó criado**.
     )
     ```
 
-### Arquivo lauch  <a name="launch"></a>
+### Arquivo launch  <a name="launch"></a>
 Facilita a execução de vários nós, evitando executar um por vez.  
-Dentro do pacote, criar um pasta "launch" e adicionar um arquivo .lauch (helloworld.lauch, por exemplo).    
+Dentro do pacote, criar um pasta "launch" e adicionar um arquivo .launch (helloworld.launch, por exemplo).    
 Dentro do arquivo, adicionar os nós:  
 ```C++
  <node name="nome_do_no" pkg="nome_do_pacote" type="tipo_do_no" output="screen"/> 
@@ -140,8 +140,8 @@ Exemplo:
 
 - **Executando**:  
 No terminal, digite o seguinte comando na pasta do workspace ("catkin_ws"):  
-`roslaunch caminho_para_o_lauch` ou  
-`roslaunch nome_projeto nome_arquivo_lauch`  
+`roslaunch caminho_para_o_launch` ou  
+`roslaunch nome_projeto nome_arquivo_launch`  
 Exemplo:  
 `roslaunch src/helloWorld/launch/helloWorld.launch` ou  
 `roslaunch helloWorld helloWorld.launch`  
