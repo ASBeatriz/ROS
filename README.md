@@ -41,7 +41,7 @@ Comandos e procedimentos básicos para criar um projeto com ROS.
       echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
       source ~/.bashrc
     ```
-    (Recomendado para tiver apenas uma versão de ROS instalado, caso contrátio fazer na mão).
+    (Recomendado se tiver apenas uma versão de ROS instalado).
 
 `catkin_make` - Compila o workspace.  
 `source devel/setup.sh` - Também em cada terminal aberto. Ativa o ambiente do workspace.
