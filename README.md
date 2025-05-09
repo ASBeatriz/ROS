@@ -35,8 +35,8 @@ Seguem abaixo anotações gerais para a criação de um projeto.
 Comandos e procedimentos básicos para criar um projeto com ROS.
 
 ### Comandos para usar sempre: <a name="comandos"></a>
-`source /opt/ros/noetic/setup.bash` - Em cada terminal abeto. É necessário para ter acesso aos comandos ROS.  
-- É possível atomatizar esse comando ao configurá-lo diretamente no .bash com:  
+`source /opt/ros/noetic/setup.bash` - Em cada terminal aberto. É necessário para ter acesso aos comandos ROS.  
+- É possível automatizar esse comando ao configurá-lo diretamente no .bash com:  
     ```
       echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
       source ~/.bashrc
